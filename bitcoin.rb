@@ -3,6 +3,8 @@ require 'json'
 require 'terminal-table'
 require 'colorize'
 
+def coin_status bpi, keys, index;(index > 0 ? (bpi[keys[index]] > bpi[keys[index - 1]] ? "🡅".green : "🡇".red) : "") end
+
 url = 'https://api.coindesk.com/v1/bpi/historical/close.json'
 
 days_to_show = ARGV[0] ? ARGV[0].split("=")[1].to_i : 7 
@@ -25,10 +27,11 @@ table_data = bpi.map.with_index do |(data, value), i|
     [
         Date.parse(data).strftime("%d/%m/%y"),
         "$#{value.to_f}",
-        (i > 0 ? (bpi[bpi_keys[i]] > bpi[bpi_keys[i - 1]] ? "🡅".green : "🡇".red) : "")
+        "",
+        coin_status(bpi, bpi_keys, i),
     ]
 end
 
-table = Terminal::Table.new :headings => ['Data', 'Valor do Bitcoin', '₿'], :rows => table_data
+table = Terminal::Table.new :headings => ['Data', 'Valor do Bitcoin', 'Variação', '₿'], :rows => table_data
 
 puts table
