@@ -55,4 +55,4 @@ table_data = bpi.map.with_index do |(data, value), i|
   ]
 end
 
-puts Terminal::Table.new headings: headings, rows: table_data
+puts Terminal::Table.new title: "Cotação Bitcoins dos ultimos #{days_to_show} dias", headings: headings, rows: table_data
