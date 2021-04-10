@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-gem 'rest-client'
-gem 'json'
-gem 'terminal-table'
 gem 'colorize'
+gem 'json'
+gem 'rest-client'
+gem 'terminal-table'
