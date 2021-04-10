@@ -12,10 +12,17 @@ def coin_status(bpi, keys, index)
 end
 
 def coin_variation(bpi, keys, index)
-  return '0' if index.zero?
+  return '$0.00' if index.zero?
 
-  total = (bpi[keys[index]] - bpi[keys[index - 1]])
+  total = bpi[keys[index]] - bpi[keys[index - 1]]
   "$#{total.round(2)}"
+end
+
+def coin_valorization(bpi, keys, index)
+  return '0%' if index.zero?
+
+  total = ((bpi[keys[index]] - bpi[keys[index - 1]]) * 100) / bpi[keys[index]]
+  "#{total.round(2)}%"
 end
 
 url = 'https://api.coindesk.com/v1/bpi/historical/close.json'
@@ -42,6 +49,7 @@ table_data = bpi.map.with_index do |(data, value), i|
   [
     Date.parse(data).strftime('%d/%m/%y'),
     "$#{value.to_f}",
+    coin_valorization(bpi, bpi_keys, i),
     coin_variation(bpi, bpi_keys, i),
     coin_status(bpi, bpi_keys, i)
   ]
