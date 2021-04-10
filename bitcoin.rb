@@ -1,6 +1,7 @@
 require 'rest-client'
 require 'json'
 require 'terminal-table'
+require 'colorize'
 
 url = 'https://api.coindesk.com/v1/bpi/historical/close.json'
 
@@ -24,7 +25,7 @@ table_data = bpi.map.with_index do |(data, value), i|
     [
         Date.parse(data).strftime("%d/%m/%y"),
         "$#{value.to_f}",
-        (i > 0 ? (bpi[bpi_keys[i]] > bpi[bpi_keys[i - 1]] ? "🡅" : "🡇") : "")
+        (i > 0 ? (bpi[bpi_keys[i]] > bpi[bpi_keys[i - 1]] ? "🡅".green : "🡇".red) : "")
     ]
 end
 
