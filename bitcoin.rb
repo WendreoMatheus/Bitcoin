@@ -28,6 +28,8 @@ end
 url = 'https://api.coindesk.com/v1/bpi/historical/close.json'
 
 headings = ['Data', 'Valor do Bitcoin', 'Valorização', 'Variação', '₿']
+center_columns = [0, 4]
+right_columns = [1, 2, 3]
 
 days_to_show = ARGV[0] ? ARGV[0].split('=')[1].to_i : 7
 
@@ -55,4 +57,14 @@ table_data = bpi.map.with_index do |(data, value), i|
   ]
 end
 
-puts Terminal::Table.new title: "Cotação Bitcoins dos ultimos #{days_to_show} dias", headings: headings, rows: table_data
+# Configuracoes da tabela
+table = Terminal::Table.new
+table.title = "Cotação Bitcoins dos ultimos #{days_to_show} dias"
+table.headings = headings
+table.rows = table_data
+
+# Align columns to center and left
+center_columns.each { |x| table.align_column(x, :center) }
+right_columns.each { |x| table.align_column(x, :right) }
+
+puts table
