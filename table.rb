@@ -27,7 +27,7 @@ class Table
   # Align columns to center and left
   def align_table(table)
     @align.each_key do |key|
-      @align[key.to_sym].each { |x| table.align_column(x, key.to_sym)}
+      @align[key.to_sym].each { |x| table.align_column(x, key.to_sym) }
     end
 
     table
