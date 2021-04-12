@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'colorize'
+
 # Modulo das moedas
 module Coin
   def coin_status(bpi, keys, index)
