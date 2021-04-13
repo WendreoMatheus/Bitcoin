@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'api'
-require_relative 'table'
+require_relative 'cotation_table'
 
 # Bitcoin class
 class Bitcoin
@@ -23,7 +23,7 @@ class Bitcoin
 
   data = get_cotation(start_date, end_date)['bpi']
 
-  table = Table.new(title, headings, data, align)
+  table = CotationTable.new(title, headings, data, align)
 
   puts ''
   puts table.render

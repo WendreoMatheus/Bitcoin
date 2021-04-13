@@ -6,10 +6,10 @@ require_relative 'coin'
 
 # Tabela
 class Table
-  def initialize(title, headings, data, align = nil)
+  def initialize(title, headings, rows, align = nil)
     @title = title
     @headings = headings
-    @rows = generate_rows(data)
+    @rows = rows
     @align = align
   end
 
@@ -31,19 +31,5 @@ class Table
     end
 
     table
-  end
-
-  def generate_rows(bpi)
-    extend Coin
-
-    bpi.map.with_index do |(data, value), i|
-      [
-        Date.parse(data).strftime('%d/%m/%y'),
-        "$#{value.to_f}",
-        coin_valorization(bpi, bpi.keys, i),
-        coin_variation(bpi, bpi.keys, i),
-        coin_status(bpi, bpi.keys, i)
-      ]
-    end
   end
 end
