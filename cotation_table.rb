@@ -25,17 +25,17 @@ class CotationTable < Table
     bpi.map.with_index do |(data, value), i|
       first_value = bpi[bpi.keys[i - 1]]
       last_value = bpi[bpi.keys[i]]
-      generate_row(first_value, last_value, data, value)
+      generate_row(first_value, last_value, data, value, i)
     end
   end
 
-  def generate_row(first_value, last_value, data, value)
+  def generate_row(first_value, last_value, data, value, index)
     [
       Date.parse(data).strftime('%d/%m/%y'),
       value.round(2),
-      i.zero? ? '0.00' : coin_valorization(first_value, last_value),
-      i.zero? ? '0.00' : coin_variation(first_value, last_value),
-      i.zero? ? '' : coin_status(first_value, last_value)
+      index.zero? ? '0.00' : coin_valorization(first_value, last_value),
+      index.zero? ? '0.00' : coin_variation(first_value, last_value),
+      index.zero? ? '' : coin_status(first_value, last_value)
     ]
   end
 end

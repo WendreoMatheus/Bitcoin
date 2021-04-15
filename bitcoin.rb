@@ -2,6 +2,7 @@
 
 require_relative 'api'
 require_relative 'cotation_table'
+require_relative 'resume_table'
 
 # Bitcoin class
 class Bitcoin
@@ -9,23 +10,17 @@ class Bitcoin
 
   days_to_show = ARGV[0] ? ARGV[0].split('=')[1].to_i : 7
 
-  headings = ['Data', 'Valor do Bitcoin', 'Valorização', 'Variação', '₿']
-  title = "Cotação Bitcoins dos ultimos #{days_to_show} dias"
-
-  # Alinha as colunas a alguma posicao de acordo com sua numeracao
-  align = {
-    center: [0, 4],
-    right: [1, 2, 3]
-  }
-
   end_date = Date.today.strftime('%Y-%m-%d')
   start_date = (Date.today - days_to_show).strftime('%Y-%m-%d')
 
   data = get_cotation(start_date, end_date)['bpi']
 
-  table = CotationTable.new(title, headings, data, align)
+  resume_table = ResumeTable.new(data)
+
+  cotation_table = CotationTable.new(data, days_to_show)
 
   puts ''
-  puts table.render
+  puts cotation_table.render
   puts ''
+  puts resume_table.render
 end
