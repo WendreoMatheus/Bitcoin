@@ -10,7 +10,7 @@ class ResumeTable < Table
     title = 'Resumo do Periodo'
     align = { center: [0], right: [1, 2, 3, 4, 5, 6] }
     headings = ['Status', 'Valor Inicial($)', 'Valor Final($)', 'Maior Valor($)',
-                'Menor Valor($)', 'Variação (%)', 'Valorização ($)']
+                'Menor Valor($)', 'Valorização (%)', 'Variação ($)']
     first_value = data.values.first
     last_value = data.values.last
 
