@@ -15,24 +15,27 @@ class CotationTable < Table
       right: [1, 2, 3]
     }
 
-    super(title, headings, generate_rows(data), align)
+    super(title, headings, generate_data(data), align)
   end
 
   private
 
-  def generate_rows(bpi)
+  def generate_data(bpi)
     extend Coin
-
     bpi.map.with_index do |(data, value), i|
       first_value = bpi[bpi.keys[i - 1]]
       last_value = bpi[bpi.keys[i]]
-      [
-        Date.parse(data).strftime('%d/%m/%y'),
-        value.round(2),
-        i.zero? ? '0.00' : coin_valorization(first_value, last_value),
-        i.zero? ? '0.00' : coin_variation(first_value, last_value),
-        i.zero? ? '' : coin_status(first_value, last_value)
-      ]
+      generate_row(first_value, last_value, data, value)
     end
+  end
+
+  def generate_row(first_value, last_value, data, value)
+    [
+      Date.parse(data).strftime('%d/%m/%y'),
+      value.round(2),
+      i.zero? ? '0.00' : coin_valorization(first_value, last_value),
+      i.zero? ? '0.00' : coin_variation(first_value, last_value),
+      i.zero? ? '' : coin_status(first_value, last_value)
+    ]
   end
 end
