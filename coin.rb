@@ -4,26 +4,36 @@ require 'colorize'
 
 # Modulo das moedas
 module Coin
-  def coin_status(bpi, keys, index)
-    return '' if index.zero?
-
-    bpi[keys[index]] > bpi[keys[index - 1]] ? '🡅'.green : '🡇'.red
+  def coin_status(first, last)
+    last > first ? '🡅'.green : '🡇'.red
   end
 
-  def coin_variation(bpi, keys, index)
-    return '0.00' if index.zero?
-
-    total = (bpi[keys[index]] - bpi[keys[index - 1]]).round(2)
-    total.positive? ? "+#{total}".green : total.to_s.red
+  def coin_variation(first, last)
+    format_value(last - first)
   end
 
-  def coin_valorization(bpi, keys, index)
-    return '0' if index.zero?
+  def coin_valorization(first, last)
+    total = (((last * 100) / first) - 100)
+    format_value(total)
+  end
 
-    current  = bpi[keys[index]]
-    previous = bpi[keys[index - 1]]
+  def biggest_value(data)
+    value = data.values.first
 
-    total = (((current * 100) / previous) - 100).round(2)
-    total.positive? ? "+#{total}".green : total.to_s.red
+    data.each_value { |x| value = x > value ? x : value }
+
+    value.round(2).to_s
+  end
+
+  def lowest_value(data)
+    value = data.values.first
+
+    data.each_value { |x| value = x < value ? x : value }
+
+    value.round(2).to_s
+  end
+
+  def format_value(value)
+    value.positive? ? "+#{value.round(2)}".green : value.round(2).to_s.red
   end
 end
