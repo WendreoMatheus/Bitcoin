@@ -11,16 +11,19 @@ module Coin
   end
 
   def coin_variation(bpi, keys, index)
-    return '$0.00' if index.zero?
+    return '0.00' if index.zero?
 
-    total = bpi[keys[index]] - bpi[keys[index - 1]]
-    "$#{total.round(2)}"
+    total = (bpi[keys[index]] - bpi[keys[index - 1]]).round(2)
+    total.positive? ? "+#{total}".green : total.to_s.red
   end
 
   def coin_valorization(bpi, keys, index)
-    return '0%' if index.zero?
+    return '0' if index.zero?
 
-    total = ((bpi[keys[index]] - bpi[keys[index - 1]]) * 100) / bpi[keys[index]]
-    "#{total.round(2)}%"
+    current  = bpi[keys[index]]
+    previous = bpi[keys[index - 1]]
+
+    total = (((current * 100) / previous) - 100).round(2)
+    total.positive? ? "+#{total}".green : total.to_s.red
   end
 end
